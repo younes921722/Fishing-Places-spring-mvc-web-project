@@ -77,19 +77,9 @@
         <li class="nav-item">
           <a class="nav-link" href="${pageContext.request.contextPath}/allfichingPlaces">All Fishing Places</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
+        
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <a class="nav-link disabled" aria-disabled="true">Map</a>
         </li>
       </ul>
       <form method="POST" action="${pageContext.request.contextPath}/serachFishingplace" class="d-flex" role="search">
@@ -101,64 +91,66 @@
 </nav>
 
 	<c:if test="${showForm}">
-    <div class="container">
-        <h2 class="text-center">Fishing Place Form</h2>
-        <f:form action="${pageContext.request.contextPath}/${action}" method="POST" modelAttribute="locationModel">
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-                <label>Location:</label>
-                <f:input path="localisation" type="text" name="location" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label>Depth:</label>
-                <f:input path="profondeur" type="text" id="depth" name="depth" class="form-control"/>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-success">Submit</button>
-                <button type="reset" class="btn btn-success">Reset</button>
-            </div>
-        </f:form>
-    </div>
+		 <div class="container">
+		    <h2 class="text-center">Fishing Place Form</h2>
+		    <f:form action="${pageContext.request.contextPath}/${action}" method="POST" modelAttribute="locationModel">
+		        <div class="form-group">
+		        <f:input path="id" type="hidden" />
+		            <label style="margin-bottom: 5px;">Location:</label>
+		            <f:input path="localisation" type="text" name="location" class="form-control" style="width: 50%; margin: auto;"/>
+		            <f:errors path="localisation" class="text-danger" />
+		        </div>
+		        <div class="form-group">
+		            <label style="margin-bottom: 5px;">Depth:</label>
+		            <f:input path="profondeur" type="text" id="depth" name="depth" class="form-control" style="width: 50%; margin: auto;"/>
+		        	<f:errors path="profondeur" class="text-danger" />
+		        </div>
+		        <div class="text-center">
+		            <button type="submit" class="btn btn-success">Submit</button>
+		            <button type="reset" class="btn btn-success">Reset</button>
+		        </div>
+		    </f:form>
+		</div>
 	</c:if>
+
+  <div class="container">
     <div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Localisation</th>
-                <th scope="col">Profondeur</th>
-            </tr>
-        </thead>
-    </table>
-        <div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Localisation</th>
-                <th scope="col">Profondeur</th>
-                <th scope="col">Actions</th> <!-- Added column for actions -->
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${locationList}" var="p">
+        <!-- Table for header -->
+        <table class="table table-striped" style="width: 100%;">
+            <thead>
                 <tr>
-                    <td><c:out value="${p.localisation}" /></td>
-                    <td><c:out value="${p.profondeur}" /></td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <!-- Delete button -->
-                            <a href="deleteLocation/${p.id}" class="btn btn-danger">Delete</a>
-                            <!-- Update button -->
-                            <a href="updateLocation/${p.id}" class="btn btn-success">Update</a>
-                        </div>
-                    </td>
+                    <th scope="col">Localisation</th>
+                    <th scope="col">Profondeur</th>
+                    <th scope="col">Actions</th> <!-- Added column for actions -->
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+        </table>
+
+        <!-- Container for table body with scroll -->
+        <div style="height: 300px;width: 185%; overflow-y: auto;">
+            <!-- Table for body -->
+            <table class="table">
+                <tbody>
+                    <c:forEach items="${locationList}" var="p">
+                        <tr>
+                            <td><c:out value="${p.localisation}" /></td>
+                            <td><c:out value="${p.profondeur}" /></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <!-- Delete button -->
+                                    <a href="deleteLocation/${p.id}" class="btn btn-outline-danger">Delete</a>
+                                    <!-- Update button -->
+                                    <a href="updateLocation/${p.id}" class="btn btn-outline-success">Update</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-    </div>
     
     <!-- Bootstrap JS -->
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -170,6 +162,9 @@
             this.reset();
         });
     </script>
+    <div>
+    Spring Web App by Younes Saouabeddine, National School of Applied
+			Science Al Hoceima</div>
 </body>
 </html>
                 

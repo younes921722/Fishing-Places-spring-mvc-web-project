@@ -71,7 +71,7 @@ public class LieuPecheController {
 	}
 	
 	@PostMapping("/serachFishingplace")
-	public String serachContact(@RequestParam("keyword") String keyword, Model model) {
+	public String serachLocation(@RequestParam("keyword") String keyword, Model model) {
 		model.addAttribute("locationList", iLieuPecheService.searchLieuPeche(keyword));
 		System.out.print(keyword);
 		System.out.print(iLieuPecheService.searchLieuPeche(keyword));
@@ -84,20 +84,36 @@ public class LieuPecheController {
 		model.addAttribute("infoMsg", "Lieu supprimé avec succès");
 		model.addAttribute("locationList", iLieuPecheService.getAllLieuPeche());
 
-		return "locationForm";
+		return "redirect:/allfichingPlaces";
 
 	}
 	
 	@GetMapping("/updateLocation/{id}")
-	public String updateContactForm(@PathVariable("id") Long id, Model model) {
+	public String updateLocationForm(@PathVariable("id") Long id, Model model) {
 		LieuPeche lieuPeche = iLieuPecheService.getLieuPecheById(id);
 		model.addAttribute("locationModel", lieuPeche);
-		model.addAttribute("action", "updateContact");
+		model.addAttribute("action", "updateLocation");
 		model.addAttribute("showForm", true);
-		model.addAttribute("contactList", iLieuPecheService.getAllLieuPeche());
+		model.addAttribute("locationList", iLieuPecheService.getAllLieuPeche());
 
 		return "locationForm";
 
+	}
+	
+	@PostMapping("/updateLocation")
+	public String updateLocation(@Valid @ModelAttribute("locationModel") LieuPeche lieuPeche, BindingResult bindingResult,
+			Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("showForm", true);
+			model.addAttribute("errorMsg", "Les données sont invalides.");
+		} else {
+			iLieuPecheService.updateLieuPeche(lieuPeche);
+			model.addAttribute("infoMsg", "Lieu modifié avec succès");
+		}
+		model.addAttribute("locationList", iLieuPecheService.getAllLieuPeche());
+		
+		return "locationForm";
 	}
 	
 	@GetMapping("/allfichingPlaces")
